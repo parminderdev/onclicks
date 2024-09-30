@@ -447,24 +447,33 @@ var radiusCircle; // Variable to store the circle layer
 
 // Function to update the circle based on the selected radius
 function updateRadius() {
-    var radius = document.getElementById('radius').value * 1000; // Convert km to meters
-    var center = [-36.9005925,174.6663196]; // Example center point (e.g., user's current location)
+    // Get the radius input value and convert to meters
+    var radius = document.getElementById('radius').value * 1000;
 
-    // Remove the existing circle if it exists
-    if (radiusCircle) {
-        map.removeLayer(radiusCircle);
-    }
+    // Use the Geolocation API to get the user's current position
+    navigator.geolocation.getCurrentPosition(function(position) {
+        // Use the current location as the center point
+        var center = [position.coords.latitude, position.coords.longitude];
 
-    // Add a new circle with the selected radius
-    radiusCircle = L.circle(center, {
-        color: '#ccc',
-        fillColor: '#3f51b5',
-        fillOpacity: 0.1,
-        radius: radius
-    }).addTo(map);
+        // Remove the existing circle if it exists
+        if (typeof radiusCircle !== 'undefined') {
+            map.removeLayer(radiusCircle);
+        }
 
-    // Adjust the map view to fit the circle's bounds
-    map.fitBounds(radiusCircle.getBounds());
+        // Add a new circle with the selected radius
+        radiusCircle = L.circle(center, {
+            color: '#ccc',
+            fillColor: '#3f51b5',
+            fillOpacity: 0.1,
+            radius: radius
+        }).addTo(map);
+
+        // Adjust the map view to fit the circle's bounds
+        map.fitBounds(radiusCircle.getBounds());
+    }, function(error) {
+        console.error("Error getting location: " + error.message);
+        alert("Unable to retrieve your location.");
+    });
 }
 
 // Initial call to set the default circle
@@ -519,11 +528,63 @@ if (navigator.geolocation) {
                         .then(html => {
                             // Display the property details
                             document.getElementById('shoper-details').innerHTML = html;
+                            initializeDynamicEvents();
                         })
 
                         .catch(error => console.error('Error:', error));
         }
        
+
+        function initializeDynamicEvents(){
+            const ajaxTrigger = document.querySelector('.sendrequest');
+            ajaxTrigger.addEventListener('click', function() {
+            // code to run when button is clicked
+              //  alert('button clicked');
+                
+                var shopid = $(this).attr("data-shop");
+                var requestno = $(this).attr("data-req");
+                var repairs = $(this).attr("data-repairs");
+                var shopname = $(this).attr("data-shopname");
+                var quot = $(this).attr("data-quot");
+                var shopemail = $(this).attr("data-shopemail");
+                var custID = $(this).attr("data-custID");
+
+
+                var ajaxrequest = 1;
+                $('#popup').show();
+                $.ajax({
+                        type: 'POST',
+                        url: 'ajax-call.php',
+                        data: {
+                            //   cusID : cusID,
+                            //   cusQue : cusQue,
+                            ajaxrequest: ajaxrequest,
+                            shopname: shopname,
+                            shopid: shopid,
+                            requestno: requestno,
+                            repairs: repairs,
+                            quot: quot,
+                            shopemail: shopemail,
+                            custID: custID
+                        }
+                    })
+                    .done(function(data) {
+                        // demonstrate the response
+                        // $('#myscript').html(data);
+                       // if ((data) == 1) {
+                            // alert('request sent');
+                            
+                           document.getElementById(data).disabled = true;;
+                            $('#popup').hide();
+                        //}
+                        //alert(maindata);
+                    })
+                    .fail(function() {
+                        // if posting your form failed
+                        alert("Posting failed.");
+                    });
+            });
+        }
 
         // Function to filter markers within the specified radius
         // function filterMarkersByRadius() {
