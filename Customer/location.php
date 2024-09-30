@@ -16,11 +16,10 @@
         }
 
         .main-block {
-            border: 2px solid #ccc;
-          /*  box-shadow: 6px 6px 4px 0 #ccc;display: inline-block; clear: both;*/
-    border-radius: 5px;
-    
-    padding: 20px;
+            border: 1px solid #ccc;
+    /* border-radius: 5px; */
+    padding: 5px 19px 10px;
+    background-color: white;
         }
 
         .block1+.block1 {
@@ -66,8 +65,10 @@
             /* width: 40%;
             float: right; */
         }
-        .pr{    font-size: 60px;
-    font-family: fantasy;}
+         p{margin:0}
+        .pr{font-size: 30px;  font-family: fantasy;}
+        .bk1 h4{    font-size: 16px;     font-weight: 600;}
+        hr{margin:0}
 
         #popup {
             position: absolute;
@@ -101,7 +102,7 @@
   cursor: pointer;
   display: inline-flex;
   font-family: "JetBrains Mono",monospace;
-  height: 48px;
+  height: 40px;
   justify-content: center;
   line-height: 1;
   list-style: none;
@@ -109,7 +110,7 @@
   padding-left: 16px;
   padding-right: 16px;
   position: relative;
-  text-align: left;
+  text-align: center;
   text-decoration: none;
   transition: box-shadow .15s,transform .15s;
   user-select: none;
@@ -117,7 +118,7 @@
   touch-action: manipulation;
   white-space: nowrap;
   will-change: box-shadow,transform;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .button-29:focus {
@@ -176,7 +177,7 @@
             margin-top: 20px;
         }
     </style>
-    <div class="col-lg-6">
+    <div class="col-lg-8">
     <div id="radius-filter">
         <label for="radius">Select Radius (in km): </label>
         <select id="radius" onchange="updateRadius()">
@@ -190,7 +191,7 @@
     </div>
 
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form" style="height: 866px;overflow: overlay;
 ">
                 <ul>
@@ -371,7 +372,7 @@
     </div>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
 
             $(".sendrequest").click(function() {
